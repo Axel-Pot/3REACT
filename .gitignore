@@ -1,0 +1,47 @@
+# Dossiers spécifiques
+/shelf/
+/workspace.xml
+/httpRequests/
+/dataSources/
+/dataSources.local.xml
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Environnements locaux
+.env
+.env.local
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Éditeurs
+.vscode/
+.idea/
+
+# Cache
+.cache/
+.pnp.*
+.eslintcache
+
+# Vite config files (optionnel)
+vite.config.*.js
+vite.config.*.ts
+
+# Rapports de couverture de tests
+coverage/
+
+# Divers
+.sass-cache/
+*.log

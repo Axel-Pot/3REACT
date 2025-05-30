@@ -42,39 +42,50 @@ const AdvancedSearchPage: React.FC = () => {
     };
 
     return (
-        <div className="p-4">
-            <h2 className="text-2xl font-bold mb-4">Recherche avancée</h2>
-            <form onSubmit={handleSearch} className="flex flex-col gap-2 mb-4 max-w-md">
-                <input placeholder="Titre" value={title} onChange={e => setTitle(e.target.value)} className="border p-2 rounded" />
-                <input placeholder="Auteur" value={author} onChange={e => setAuthor(e.target.value)} className="border p-2 rounded" />
-                <input placeholder="Année" value={year} onChange={e => setYear(e.target.value.replace(/\D/g, ""))} className="border p-2 rounded" />
-                <input placeholder="Sujet" value={subject} onChange={e => setSubject(e.target.value)} className="border p-2 rounded" />
-                <div className="flex gap-2">
-                    <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">Rechercher</button>
-                    <button type="button" onClick={handleReset} className="bg-gray-300 text-black px-4 py-2 rounded">Réinitialiser</button>
+        <div className="container my-4">
+            <h2 className="mb-4">Recherche avancée</h2>
+            <form onSubmit={handleSearch} className="row g-3">
+                <div className="col-md-3">
+                    <input placeholder="Titre" value={title} onChange={e => setTitle(e.target.value)} className="form-control" />
+                </div>
+                <div className="col-md-3">
+                    <input placeholder="Auteur" value={author} onChange={e => setAuthor(e.target.value)} className="form-control" />
+                </div>
+                <div className="col-md-2">
+                    <input placeholder="Année" value={year} onChange={e => setYear(e.target.value)} className="form-control" />
+                </div>
+                <div className="col-md-2">
+                    <input placeholder="Sujet" value={subject} onChange={e => setSubject(e.target.value)} className="form-control" />
+                </div>
+                <div className="col-md-2 d-flex gap-2">
+                    <button type="submit" className="btn btn-primary">Rechercher</button>
+                    <button type="button" onClick={handleReset} className="btn btn-secondary">Réinitialiser</button>
                 </div>
             </form>
 
             {loading && <p>Chargement...</p>}
-            {error && <p className="text-red-600">Erreur : {error}</p>}
-            {results.length > 0 && (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                    {results.map(book => (
-                        <Link to={`/book/${book.key.split('/').pop()}`} key={book.key} className="border rounded shadow hover:shadow-lg transition">
+            {error && <p className="text-danger">Erreur : {error}</p>}
+            <div className="row mt-4">
+                {results.map(book => (
+                    <div key={book.key} className="col-md-6 col-lg-4 mb-4">
+                        <div className="card h-100 shadow-sm">
                             {book.cover_i ? (
-                                <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} className="w-full h-60 object-cover" />
+                                <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} className="card-img-top" />
                             ) : (
-                                <div className="w-full h-60 flex items-center justify-center bg-gray-200">Pas d'image</div>
+                                <div className="card-img-top bg-light d-flex align-items-center justify-content-center" style={{ height: "250px" }}>
+                                    Pas d'image
+                                </div>
                             )}
-                            <div className="p-2">
-                                <h3 className="font-bold">{book.title}</h3>
-                                <p>Auteurs : {book.author_name?.join(", ") ?? "N/A"}</p>
-                                <p>Année : {book.first_publish_year ?? "N/A"}</p>
+                            <div className="card-body">
+                                <h5 className="card-title">{book.title}</h5>
+                                <p className="card-text">Auteurs : {book.author_name?.join(", ") ?? "N/A"}</p>
+                                <p className="card-text"><small>Année : {book.first_publish_year ?? "N/A"}</small></p>
+                                <Link to={`/book/${book.key.split('/').pop()}`} className="btn btn-primary">Détails</Link>
                             </div>
-                        </Link>
-                    ))}
-                </div>
-            )}
+                        </div>
+                    </div>
+                ))}
+            </div>
         </div>
     );
 };

@@ -6,7 +6,6 @@ export interface SearchResult {
     cover_i?: number;
 }
 
-// Typage des documents OpenLibrary
 interface OpenLibraryDoc {
     key: string;
     title: string;
@@ -15,7 +14,6 @@ interface OpenLibraryDoc {
     cover_i?: number;
 }
 
-// Recherche rapide
 export async function searchBooks(query: string): Promise<SearchResult[]> {
     try {
         const res = await fetch(`https://openlibrary.org/search.json?q=${encodeURIComponent(query)}`);
@@ -35,7 +33,6 @@ export async function searchBooks(query: string): Promise<SearchResult[]> {
     }
 }
 
-// Recherche avancée
 export async function searchAdvancedBooks(params: { title?: string; author?: string; year?: string; subject?: string; }): Promise<SearchResult[]> {
     const queryParts = [];
     if (params.title) queryParts.push(`title=${encodeURIComponent(params.title)}`);

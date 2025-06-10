@@ -17,11 +17,3 @@ export interface Author {
     name: string;
 }
 
-export interface BookWithAuthors {
-    key: string;
-    title: string;
-    created?: string;
-    authorNames: string[];
-    coverId?: number;
-}
-

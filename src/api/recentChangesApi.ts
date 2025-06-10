@@ -1,24 +1,7 @@
-import type { Change, Work, Author } from "../components/RecentChanges/RecentChanges.types";
-
-export interface BookWithAuthors {
-    key: string;
-    title: string;
-    description?: string;
-    created?: string;
-    authorNames: string[];
-    coverId?: number;
-}
-
-export async function fetchAuthorName(authorKey: string): Promise<string> {
-    try {
-        const res = await fetch(`https://openlibrary.org${authorKey}.json`);
-        if (!res.ok) return "Auteur inconnu";
-        const data: Author = await res.json();
-        return data.name || "Auteur inconnu";
-    } catch {
-        return "Auteur inconnu";
-    }
-}
+import type { Change, Work } from "../components/RecentChanges/RecentChanges.types";
+import { fetchWikipediaData } from "./wikipediaApi";
+import { fetchAuthorName } from "./bookApi";
+import type { BookWithAuthors } from "./bookApi";
 
 export async function fetchRecentBooks(): Promise<BookWithAuthors[]> {
     try {
@@ -37,8 +20,16 @@ export async function fetchRecentBooks(): Promise<BookWithAuthors[]> {
                 if (!workRes.ok) return null;
                 const work: Work = await workRes.json();
 
-                // Utiliser directement les noms d’auteurs
-                const authorNames = work.authors?.map(a => a.author?.key?.split('/').pop() || "Auteur inconnu") ?? [];
+                const authorNames = work.authors
+                    ? await Promise.all(
+                        work.authors.map(async (a) => {
+                            const key = a.author?.key;
+                            return key ? await fetchAuthorName(key) : "Auteur inconnu";
+                        })
+                    )
+                    : [];
+
+                const wikiData = await fetchWikipediaData(work.title);
 
                 return {
                     key: work.key,
@@ -46,7 +37,8 @@ export async function fetchRecentBooks(): Promise<BookWithAuthors[]> {
                     description: work.description?.value,
                     created: work.created?.value,
                     authorNames,
-                    coverId: work.covers?.[0] ?? undefined
+                    coverId: work.covers?.[0] ?? undefined,
+                    fallbackImageUrl: wikiData?.thumbnailUrl
                 } as BookWithAuthors;
             } catch {
                 return null;

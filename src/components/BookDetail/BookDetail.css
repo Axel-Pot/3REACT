@@ -1,0 +1,11 @@
+.book-container {
+    padding: 20px;
+}
+
+.book-image {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    display: block;
+    margin-bottom: 1rem;
+}

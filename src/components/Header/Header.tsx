@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import "./Header.css";
 
 const Header: React.FC = () => {
     const [query, setQuery] = useState("");
@@ -13,15 +14,13 @@ const Header: React.FC = () => {
     };
 
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
+        <nav className="navbar navbar-expand-lg header-navbar">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">📚 Ma Bibliothèque</Link>
-                {/* Le bouton toggle reste pour compatibilité responsive */}
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                {/* Ici, suppression du collapse pour que les liens soient toujours visibles */}
                 <ul className="navbar-nav me-auto d-flex flex-row gap-3">
                     <li className="nav-item">
                         <Link className="nav-link" to="/">Accueil</Link>
@@ -31,10 +30,10 @@ const Header: React.FC = () => {
                     </li>
                 </ul>
 
-                <form className="d-flex" onSubmit={handleSubmit}>
+                <form className="d-flex search-form" onSubmit={handleSubmit}>
                     <input
                         type="text"
-                        className="form-control me-2"
+                        className="form-control search-input"
                         placeholder="Recherche rapide..."
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}

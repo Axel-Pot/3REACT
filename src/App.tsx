@@ -13,7 +13,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/book/:id" element={<BookDetailPage />} />
                 <Route path="/search" element={<SearchPage />} />
-                <Route path="/advanced-search" element={<AdvancedSearchPage />} /> {/* Ajout */}
+                <Route path="/advanced-search" element={<AdvancedSearchPage />} />
             </Routes>
         </>
     );

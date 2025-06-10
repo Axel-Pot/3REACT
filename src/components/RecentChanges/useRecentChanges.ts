@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchRecentBooks } from "../../api/recentChangesApi";
-import type { BookWithAuthors } from "../../api/recentChangesApi";
+import type {BookWithAuthors} from "../../api/bookApi.ts";
 
 export function useRecentChanges() {
     const [books, setBooks] = useState<BookWithAuthors[]>([]);

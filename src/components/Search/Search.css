@@ -28,3 +28,59 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.pagination-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 14px;
+    margin-right: 8px;
+}
+
+.pagination-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: #0056b3;
+}
+
+.current-page {
+    font-size: 16px;
+    font-weight: bold;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.page-select input {
+    width: 60px;
+    padding: 5px;
+    font-size: 16px;
+    margin-left: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    outline: none;
+    text-align: center;
+}
+
+.page-select input:focus {
+    border-color: #007bff;
+}
+
+.page-select {
+    display: flex;
+    align-items: center;
+}

@@ -11,6 +11,9 @@ const SearchPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const booksPerPage = 9;
+
     useEffect(() => {
         if (!query.trim()) {
             setError("Aucune requête fournie.");
@@ -30,16 +33,35 @@ const SearchPage: React.FC = () => {
             .finally(() => setLoading(false));
     }, [query]);
 
+    const indexOfLastBook = currentPage * booksPerPage;
+    const indexOfFirstBook = indexOfLastBook - booksPerPage;
+    const currentBooks = results.slice(indexOfFirstBook, indexOfLastBook);
+
+    const handlePageChange = (pageNumber: number) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
+
+    const handlePageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = Number(e.target.value);
+        if (value > 0 && value <= totalPages) {
+            setCurrentPage(value);
+        }
+    };
+
+    const totalPages = Math.ceil(results.length / booksPerPage);
+
     return (
         <div className="container search-container">
             <h2>Résultats pour : « {query} »</h2>
-            {loading && <p>Chargement...</p>}
-            {error && <p className="text-danger">Erreur : {error}</p>}
+            {loading && <div className="loader">Chargement...</div>}
+            {error && <p className="text-danger error-message">{error}</p>}
 
             <div className="row mt-4">
-                {results.map((book) => (
+                {currentBooks.map((book) => (
                     <div key={book.key} className="col-md-6 col-lg-4 mb-4">
-                        <div className="card search-card">
+                        <div className="card search-card shadow-sm">
                             {book.cover_i ? (
                                 <img
                                     src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`}
@@ -51,14 +73,12 @@ const SearchPage: React.FC = () => {
                                     Pas d'image
                                 </div>
                             )}
-                            <div className="card-body d-flex flex-column justify-content-between">
-                                <div>
-                                    <h5 className="card-title">{book.title}</h5>
-                                    <p className="card-text">Auteurs : {book.author_name?.join(", ") ?? "N/A"}</p>
-                                    <p className="card-text">
-                                        <small>Année : {book.first_publish_year ?? "N/A"}</small>
-                                    </p>
-                                </div>
+                            <div className="card-body d-flex flex-column">
+                                <h5 className="card-title">{book.title}</h5>
+                                <p className="card-text">Auteurs : {book.author_name?.join(", ") ?? "N/A"}</p>
+                                <p className="card-text">
+                                    <small>Année : {book.first_publish_year ?? "N/A"}</small>
+                                </p>
                                 <Link to={`/book/${book.key.split("/").pop()}`} className="btn btn-primary mt-2">
                                     Détails
                                 </Link>
@@ -66,6 +86,49 @@ const SearchPage: React.FC = () => {
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="pagination-container">
+                <button
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(1)}
+                    disabled={currentPage === 1}
+                >
+                    &laquo;&laquo; Première
+                </button>
+                <button
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                >
+                    &lt; Précédente
+                </button>
+                <span className="current-page">
+                    Page {currentPage} sur {totalPages}
+                </span>
+                <button
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                >
+                    Suivante &gt;
+                </button>
+                <button
+                    className="pagination-btn"
+                    onClick={() => handlePageChange(totalPages)}
+                    disabled={currentPage === totalPages}
+                >
+                    Dernière &raquo;&raquo;
+                </button>
+                <div className="page-select">
+                    <input
+                        type="number"
+                        value={currentPage}
+                        onChange={handlePageInputChange}
+                        min="1"
+                        max={totalPages}
+                    />
+                </div>
             </div>
         </div>
     );

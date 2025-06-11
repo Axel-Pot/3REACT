@@ -17,9 +17,6 @@ const Header: React.FC = () => {
         <nav className="navbar navbar-expand-lg header-navbar">
             <div className="container-fluid">
                 <Link className="navbar-brand" to="/">📚 Ma Bibliothèque</Link>
-                <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
 
                 <ul className="navbar-nav me-auto d-flex flex-row gap-3">
                     <li className="nav-item">

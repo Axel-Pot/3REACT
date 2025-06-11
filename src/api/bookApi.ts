@@ -1,6 +1,6 @@
 import type { Work, Author } from "../components/RecentChanges/RecentChanges.types";
 
-export interface BookWithAuthors {
+export type BookWithAuthors = {
     key: string;
     title: string;
     description?: string;
@@ -8,7 +8,7 @@ export interface BookWithAuthors {
     authorNames: string[];
     coverId?: number;
     fallbackImageUrl?: string;
-}
+};
 
 export async function fetchAuthorName(authorKey: string): Promise<string> {
     try {

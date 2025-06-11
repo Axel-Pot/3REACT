@@ -4,6 +4,7 @@ import BookDetailPage from './pages/BookDetailPage';
 import SearchPage from './pages/SearchPage';
 import Header from './components/Header/Header';
 import AdvancedSearchPage from './pages/AdvancedSearchPage';
+import ScrollToTopButton from "./components/ScrollToTopButton/ScrollToTopButton";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path="/search" element={<SearchPage />} />
                 <Route path="/advanced-search" element={<AdvancedSearchPage />} />
             </Routes>
+            <ScrollToTopButton />
         </>
     );
 }

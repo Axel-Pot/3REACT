@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, type MockedFunction } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import SearchPage from './Search';
@@ -6,7 +6,7 @@ import * as api from '../../api/SearchApi';
 
 vi.mock('../../api/SearchApi');
 
-const mockedSearchBooks = api.searchBooks as vi.MockedFunction<typeof api.searchBooks>;
+const mockedSearchBooks = api.searchBooks as MockedFunction<typeof api.searchBooks>;
 
 function renderWithQuery(query: string) {
     return render(
